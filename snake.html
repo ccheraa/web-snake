@@ -80,14 +80,20 @@
           case 'l': newHead = { x: head.x - 1 , y: head.y     }; break;
           case 'r': newHead = { x: head.x + 1 , y: head.y     }; break;
         }
-        if (check(newHead)) {
-          for (var i = 0; i < snake.length - 1; i++) {
-            snake[i] = snake[i + 1];
-          }
-          snake[last] = newHead;
-          draw();
-        } else {
+        var action = check(newHead);
+        if (action == 'stop') {
           stop();
+        } else {
+          if (action == 'move') {
+            for (var i = 0; i < snake.length - 1; i++) {
+              snake[i] = snake[i + 1];
+            }
+            snake[last] = newHead;
+          } else {
+            snake[last + 1] = newHead;
+            spawn();
+          }
+          draw();
         }
       }
       function start() {
@@ -107,9 +113,12 @@
       }
       function check(head) {
         if (head.x < 0 || head.x > 19 || head.y < 0 || head.y > 19) {
-          return false;
+          return 'stop';
         }
-        return true;
+        if (head.x == up.x && head.y == up.y) {
+          return 'add';
+        }
+        return 'move';
       }
       function keys(e) {
         if (running) {
@@ -122,6 +131,9 @@
         }
       }
       function spawn() {
+        if (up) {
+          blocks[up.x][up.y].classList.remove('up');
+        }
         var free = false;
         while (!free) {
           free = true;
