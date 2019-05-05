@@ -3,6 +3,20 @@
   <head>
     <title>Snake</title>
     <style>
+      h1 {
+        font-size: 64px;
+        text-align: center;
+        text-shadow: 4px 4px 4px silver;
+      }
+      h2 {
+        font-size: 32px;
+        text-align: center;
+        text-shadow: 3px 3px 2px silver;
+      }
+      h2.lose {
+        color: red;
+        text-shadow: 3px 3px 2px rgba(255, 0, 0, 0.3);
+      }
       #area {
         position: relative;
         border: 4px solid black;
@@ -10,17 +24,26 @@
         height: 400px;
         padding: 10px;
         margin: 40px auto;
-        box-shadow: 10px 10px;
+        box-shadow: 10px 10px 4px grey, 0 0 10px inset;
+        border-radius: 20px;
       }
       .block {
         position: absolute;
-        border: 1px solid silver;
+        border: 1px solid transparent;
+        width: 18px;
+        height: 18px;
       }
       .snake {
         background-color: red;
+        border-color: maroon;
+        box-shadow: 5px 5px 5px rgba(255, 0, 0, 0.3);
+        border-radius: 4px;
       }
       .up {
-        background-color: green;
+        background-color: lime;
+        border-color: green;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px rgba(0, 255, 0, 0.3);
       }
       #start {
         display: block;
@@ -30,9 +53,12 @@
     </style>
   </head>
   <body>
+    <h1>Snake</h1>
+    <h2 id="score">Press Start</h2>
     <div id="area"></div>
     <button id="start">Start</button>
     <script>
+      var score = document.getElementById('score');
       var area = document.getElementById('area');
       var startButton = document.getElementById('start');
       var blocks = new Array(20);
@@ -52,8 +78,6 @@
             blocks[x][y] = document.createElement('div');
             blocks[x][y].style.left = 10 + x * 20 + 'px';
             blocks[x][y].style.top = 10 + y * 20 + 'px';
-            blocks[x][y].style.width = '18px';
-            blocks[x][y].style.height = '18px';
             blocks[x][y].className = 'block';
             area.appendChild(blocks[x][y]);
           }
@@ -91,6 +115,7 @@
             snake[last] = newHead;
           } else {
             snake[last + 1] = newHead;
+            score.innerHTML = 'Score: ' + (snake.length - 3);
             spawn();
           }
           draw();
@@ -103,17 +128,25 @@
           { x: 9, y: 13 },
         ];
         newDir = 'u';
-        running = setInterval(step, 330);
+        running = setInterval(step, 200);
         startButton.style.display = 'none';
+        score.innerHTML = 'Score: 0';
+        score.className = '';
         spawn();
       }
       function stop() {
         clearInterval(running);
+        score.className = 'lose';
         startButton.style.display = 'block';
       }
       function check(head) {
         if (head.x < 0 || head.x > 19 || head.y < 0 || head.y > 19) {
           return 'stop';
+        }
+        for (var i = 0; i < snake.length; i++) {
+          if (head.x == snake[i].x && head.y == snake[i].y) {
+            return 'stop';
+          }
         }
         if (head.x == up.x && head.y == up.y) {
           return 'add';
