@@ -19,6 +19,9 @@
       .snake {
         background-color: red;
       }
+      .up {
+        background-color: green;
+      }
       #start {
         display: block;
         margin: 10px auto;
@@ -36,6 +39,7 @@
       var snake;
       var dir;
       var newDir;
+      var up;
       var running = false;
 
       startButton.addEventListener('click', start);
@@ -50,7 +54,7 @@
             blocks[x][y].style.top = 10 + y * 20 + 'px';
             blocks[x][y].style.width = '18px';
             blocks[x][y].style.height = '18px';
-            blocks[x][y].className = 'block'
+            blocks[x][y].className = 'block';
             area.appendChild(blocks[x][y]);
           }
         }
@@ -95,6 +99,7 @@
         newDir = 'u';
         running = setInterval(step, 330);
         startButton.style.display = 'none';
+        spawn();
       }
       function stop() {
         clearInterval(running);
@@ -115,6 +120,18 @@
             case 39: if (dir == 'u' || dir == 'd') newDir = 'r'; break;
           }
         }
+      }
+      function spawn() {
+        var free = false;
+        while (!free) {
+          free = true;
+          up = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20)};
+          for (var i = 0; i < snake.length; i++) {
+            free = free && snake[i].x != up.x && snake[i].y != up.y;
+            if (!free) break;
+          }
+        }
+        blocks[up.x][up.y].classList.add('up');
       }
 
       init();
