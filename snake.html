@@ -32,6 +32,8 @@
         { x: 9, y: 13 },
 
       ];
+      var dir = 'u';
+
       function init() {
         for (var x = 0; x < 20; x++) {
             blocks[x] = new Array(20);
@@ -55,6 +57,21 @@
         for (var i = 0; i < snake.length; i++) {
           blocks[snake[i].x][snake[i].y].classList.add('snake');
         }
+      }
+      function step() {
+        var last = snake.length - 1;
+        var head = snake[last];
+        var newHead;
+        switch(dir) {
+          case 'u': newHead = { x: head.x     , y: head.y - 1 }; break;
+          case 'd': newHead = { x: head.x     , y: head.y + 1 }; break;
+          case 'l': newHead = { x: head.x - 1 , y: head.y     }; break;
+          case 'r': newHead = { x: head.x + 1 , y: head.y     }; break;
+        }
+        for (var i = 0; i < snake.length - 1; i++) {
+          snake[i] = snake[i + 1];
+        }
+        snake[last] = newHead;
       }
 
       init();
