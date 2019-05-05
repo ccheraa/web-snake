@@ -33,13 +33,9 @@
       var area = document.getElementById('area');
       var startButton = document.getElementById('start');
       var blocks = new Array(20);
-      var snake = [
-        { x: 9, y: 15 },
-        { x: 9, y: 14 },
-        { x: 9, y: 13 },
-      ];
-      var dir = 'u';
-      var newDir = 'u';
+      var snake;
+      var dir;
+      var newDir;
       var running = false;
 
       startButton.addEventListener('click', start);
@@ -96,6 +92,7 @@
           { x: 9, y: 14 },
           { x: 9, y: 13 },
         ];
+        newDir = 'u';
         running = setInterval(step, 330);
         startButton.style.display = 'none';
       }
