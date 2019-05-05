@@ -33,6 +33,7 @@
 
       ];
       var dir = 'u';
+      var running = false;
 
       function init() {
         for (var x = 0; x < 20; x++) {
@@ -72,10 +73,17 @@
           snake[i] = snake[i + 1];
         }
         snake[last] = newHead;
+        draw();
+      }
+      function start() {
+        running = setInterval(step, 330);
+      }
+      function stop() {
+        clearInterval(running);
       }
 
       init();
-      draw();
+      start();
     </script>
   </body>
 </html>
