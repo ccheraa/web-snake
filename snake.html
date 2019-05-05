@@ -19,21 +19,29 @@
       .snake {
         background-color: red;
       }
+      #start {
+        display: block;
+        margin: 10px auto;
+        font-size: 24px;
+      }
     </style>
   </head>
   <body>
     <div id="area"></div>
+    <button id="start">Start</button>
     <script>
-      var blocks = new Array(20);
       var area = document.getElementById('area');
+      var startButton = document.getElementById('start');
+      var blocks = new Array(20);
       var snake = [
         { x: 9, y: 15 },
         { x: 9, y: 14 },
         { x: 9, y: 13 },
-
       ];
       var dir = 'u';
       var running = false;
+
+      startButton.addEventListener('click', start);
 
       function init() {
         for (var x = 0; x < 20; x++) {
@@ -80,10 +88,17 @@
         }
       }
       function start() {
+        snake = [
+          { x: 9, y: 15 },
+          { x: 9, y: 14 },
+          { x: 9, y: 13 },
+        ];
         running = setInterval(step, 330);
+        startButton.style.display = 'none';
       }
       function stop() {
         clearInterval(running);
+        startButton.style.display = 'block';
       }
       function check(head) {
         if (head.x < 0 || head.x > 19 || head.y < 0 || head.y > 19) {
@@ -93,7 +108,6 @@
       }
 
       init();
-      start();
     </script>
   </body>
 </html>
