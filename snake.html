@@ -3,7 +3,8 @@
   <head>
     <title>Snake</title>
     <style>
-      #screen {
+      #area {
+        position: relative;
         border: 4px solid black;
         width: 400px;
         height: 400px;
@@ -11,9 +12,32 @@
         margin: 40px auto;
         box-shadow: 10px 10px;
       }
+      .block {
+        position: absolute;
+        border: 1px solid silver;
+      }
     </style>
   </head>
   <body>
-    <div id="screen"></div>
+    <div id="area"></div>
+    <script>
+      var blocks = new Array(20);
+      var area = document.getElementById('area');
+      function init() {
+        for (var x = 0; x < 20; x++) {
+            blocks[x] = new Array(20);
+          for (var y = 0; y < 20; y++) {
+            blocks[x][y] = document.createElement('div');
+            blocks[x][y].style.left = 10 + x * 20 + 'px';
+            blocks[x][y].style.top = 10 + y * 20 + 'px';
+            blocks[x][y].style.width = '18px';
+            blocks[x][y].style.height = '18px';
+            blocks[x][y].className = 'block'
+            area.appendChild(blocks[x][y]);
+          }
+        }
+      }
+      init();
+    </script>
   </body>
 </html>
