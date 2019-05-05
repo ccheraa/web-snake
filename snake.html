@@ -69,17 +69,27 @@
           case 'l': newHead = { x: head.x - 1 , y: head.y     }; break;
           case 'r': newHead = { x: head.x + 1 , y: head.y     }; break;
         }
-        for (var i = 0; i < snake.length - 1; i++) {
-          snake[i] = snake[i + 1];
+        if (check(newHead)) {
+          for (var i = 0; i < snake.length - 1; i++) {
+            snake[i] = snake[i + 1];
+          }
+          snake[last] = newHead;
+          draw();
+        } else {
+          stop();
         }
-        snake[last] = newHead;
-        draw();
       }
       function start() {
         running = setInterval(step, 330);
       }
       function stop() {
         clearInterval(running);
+      }
+      function check(head) {
+        if (head.x < 0 || head.x > 19 || head.y < 0 || head.y > 19) {
+          return false;
+        }
+        return true;
       }
 
       init();
