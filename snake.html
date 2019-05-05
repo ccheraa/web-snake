@@ -39,9 +39,11 @@
         { x: 9, y: 13 },
       ];
       var dir = 'u';
+      var newDir = 'u';
       var running = false;
 
       startButton.addEventListener('click', start);
+      document.body.addEventListener('keydown', keys);
 
       function init() {
         for (var x = 0; x < 20; x++) {
@@ -71,6 +73,7 @@
         var last = snake.length - 1;
         var head = snake[last];
         var newHead;
+        dir = newDir;
         switch(dir) {
           case 'u': newHead = { x: head.x     , y: head.y - 1 }; break;
           case 'd': newHead = { x: head.x     , y: head.y + 1 }; break;
@@ -105,6 +108,16 @@
           return false;
         }
         return true;
+      }
+      function keys(e) {
+        if (running) {
+          switch(e.keyCode) {
+            case 38: if (dir == 'l' || dir == 'r') newDir = 'u'; break;
+            case 40: if (dir == 'l' || dir == 'r') newDir = 'd'; break;
+            case 37: if (dir == 'u' || dir == 'd') newDir = 'l'; break;
+            case 39: if (dir == 'u' || dir == 'd') newDir = 'r'; break;
+          }
+        }
       }
 
       init();
