@@ -16,6 +16,9 @@
         position: absolute;
         border: 1px solid silver;
       }
+      .snake {
+        background-color: red;
+      }
     </style>
   </head>
   <body>
@@ -23,6 +26,12 @@
     <script>
       var blocks = new Array(20);
       var area = document.getElementById('area');
+      var snake = [
+        { x: 9, y: 15 },
+        { x: 9, y: 14 },
+        { x: 9, y: 13 },
+
+      ];
       function init() {
         for (var x = 0; x < 20; x++) {
             blocks[x] = new Array(20);
@@ -37,7 +46,19 @@
           }
         }
       }
+      function draw() {
+        for (var x = 0; x < 20; x++) {
+          for (var y = 0; y < 20; y++) {
+            blocks[x][y].classList.remove('snake');
+          }
+        }
+        for (var i = 0; i < snake.length; i++) {
+          blocks[snake[i].x][snake[i].y].classList.add('snake');
+        }
+      }
+
       init();
+      draw();
     </script>
   </body>
 </html>
